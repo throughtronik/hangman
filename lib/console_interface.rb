@@ -3,22 +3,21 @@ require 'colorized_string'
 
 class ConsoleInterface
   FIGURES =
-    Dir[__dir__ + "/../data/figures/*.txt"].
-      sort.
-      map { |file| File.read(file) }
+    Dir["#{__dir__}/../data/figures/*.txt"]
+    .sort
+    .map { |file| File.read(file) }
 
   def errors_to_show
-    @game.errors.join(", ")
+    @game.errors.join(', ')
   end
 
   def figure
-    return FIGURES[@game.errors_made]
+    FIGURES[@game.errors_made]
   end
 
   def get_input
-    print "Введите следующую букву: "
-    letter = gets[0].upcase
-    return letter
+    print 'Введите следующую букву: '
+    gets[0].upcase
   end
 
   def initialize(game)
@@ -27,12 +26,12 @@ class ConsoleInterface
 
   def print_out
     puts ColorizedString["Слово: #{word_to_show}"].colorize(:green)
-    puts "#{figure.colorize(:yellow)}"
+    puts figure.colorize(:yellow).to_s
     puts ColorizedString["Ошибки (#{@game.errors_made}): #{errors_to_show}"].colorize(:red).blink
     puts "У вас осталось ошибок: #{@game.errors_allowed}"
 
     if @game.won?
-      puts "Вы выиграли!".colorize(:green)
+      puts 'Вы выиграли!'.colorize(:green)
     elsif @game.lost?
       puts "Вы проиграли, загаданное слово #{@game.word}".colorize(:red).on_blue.underline
     end
@@ -40,8 +39,8 @@ class ConsoleInterface
 
   def word_to_show
     result =
-      @game.letters_to_guess.map { |letter| letter.nil? ? "__" : letter }
+      @game.letters_to_guess.map { |letter| letter.nil? ? '__' : letter }
 
-    result.join(" ")
+    result.join(' ')
   end
 end
